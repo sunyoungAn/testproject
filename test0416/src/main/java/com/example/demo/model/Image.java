@@ -20,7 +20,7 @@ public class Image {
 	private Long id;
 	
 	@Column(columnDefinition = "TINYINT", nullable = false)
-	private Integer page_div;
+	private Integer pageDiv;
 	
 	@Column(nullable = false)
 	private Long targetId;

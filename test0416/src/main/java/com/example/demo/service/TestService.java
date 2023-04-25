@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.model.Brand;
 import com.example.demo.model.Product;
+import com.example.demo.model.DTO.TestQueryDTO;
 import com.example.demo.repository.BrandRepository;
 import com.example.demo.repository.ProductRepository;
 
@@ -25,6 +26,10 @@ public class TestService {
 
 	public List<Brand> findBrand() {
 		return br.findAll();
+	}
+
+	public List<TestQueryDTO> findData() {
+		return pr.findData();
 	}
 	
 	

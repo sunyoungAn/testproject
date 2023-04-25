@@ -14,6 +14,7 @@ import com.example.demo.model.Brand;
 import com.example.demo.model.Product;
 import com.example.demo.model.DTO.MainBrandDTO;
 import com.example.demo.model.DTO.MainProductDTO;
+import com.example.demo.model.DTO.TestQueryDTO;
 import com.example.demo.model.DTO.TestResponseDTO;
 import com.example.demo.service.TestService;
 
@@ -57,6 +58,16 @@ public class TestController {
 		return new ResponseEntity<TestResponseDTO>(resultDto, HttpStatus.OK);
 		
 	}
+	
+	@GetMapping("/api/test2")
+	public ResponseEntity<List<TestQueryDTO>> getTest() {
+		
+		List<TestQueryDTO> dtoList = ts.findData();
+		
+		return new ResponseEntity<List<TestQueryDTO>>(dtoList, HttpStatus.OK);
+		
+	}
+	
 	
 	
 }
