@@ -11,11 +11,14 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.model.Member;
 import com.example.demo.model.Notice;
+import com.example.demo.model.DTO.AdminMemberDTO;
 import com.example.demo.model.DTO.AdminMemberInfoDTO;
 import com.example.demo.service.AdminMemberService;
 import com.example.demo.specification.MemberSpecification;
@@ -97,6 +100,11 @@ public class AdminMemberController {
 	/*
 	 * 회원 수정 
 	 */
+	@PutMapping("/api/admin/member/edit/{memberNumber}")
+	public void editMember(@PathVariable("memberNumber") Long memberNumber, @RequestBody AdminMemberDTO dto) {
+		
+		adminMemberService.edit(memberNumber, dto);
+	}
 	
 	
 	/*

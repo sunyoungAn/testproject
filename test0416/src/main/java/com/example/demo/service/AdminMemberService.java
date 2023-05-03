@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,8 +15,11 @@ import com.example.demo.model.Card;
 import com.example.demo.model.Member;
 import com.example.demo.model.DTO.AdminAddressDTO;
 import com.example.demo.model.DTO.AdminCardDTO;
+import com.example.demo.model.DTO.AdminMemberDTO;
 import com.example.demo.model.DTO.AdminMemberInfoDTO;
 import com.example.demo.repository.MemberRepository;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class AdminMemberService {
@@ -92,6 +96,33 @@ public class AdminMemberService {
 		resultDto.setCardDtoList(cardDtoList);
 		
 		return resultDto;
+	}
+
+	/*
+	 * 회원 수정 
+	 */
+	@Transactional
+	public void edit(Long memberNumber, AdminMemberDTO dto) {
+		
+		// 수정할 회원 검색
+		Member targetMember = memberRepository.findById(memberNumber).get();
+		
+		// 수정할 값 설정
+		targetMember.setName(dto.getName());
+		// 비밀번호는 값이 설정된 경우에만 갱신된다
+		if(dto.getPassword() != null && dto.getPassword() != "") {
+			targetMember.setPassword(dto.getPassword());;
+		}
+		targetMember.setPhoneNumber(dto.getPhoneNumber());
+		targetMember.setGender(dto.getGender());
+		targetMember.setBirthDate(dto.getBirthDate());
+		targetMember.setMemberStatus(dto.getMemberStatus());
+		targetMember.setBankName(dto.getBankName());
+		targetMember.setAccountNumber(dto.getAccountNumber());
+		targetMember.setDepositor(dto.getDepositor());
+		targetMember.setModifiedDate(LocalDateTime.now());
+		
+		memberRepository.save(targetMember);
 	}
 
 }
