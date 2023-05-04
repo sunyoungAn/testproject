@@ -17,6 +17,8 @@ import com.example.demo.model.DTO.AdminAddressDTO;
 import com.example.demo.model.DTO.AdminCardDTO;
 import com.example.demo.model.DTO.AdminMemberDTO;
 import com.example.demo.model.DTO.AdminMemberInfoDTO;
+import com.example.demo.repository.AddressRepository;
+import com.example.demo.repository.CardRepository;
 import com.example.demo.repository.MemberRepository;
 
 import jakarta.transaction.Transactional;
@@ -26,6 +28,12 @@ public class AdminMemberService {
 
 	@Autowired
 	private MemberRepository memberRepository;
+	
+	@Autowired
+	private AddressRepository addressRepository;
+	
+	@Autowired
+	private CardRepository cardRepository;
 	
 	/*
 	 * 멤버리스트 - 멤버 리스트 전체 가져오기
@@ -123,6 +131,43 @@ public class AdminMemberService {
 		targetMember.setModifiedDate(LocalDateTime.now());
 		
 		memberRepository.save(targetMember);
+	}
+
+	/*
+	 * 주소정보 삭제
+	 */
+	@Transactional
+	public void deleteAddress(Long id) {
+		addressRepository.deleteById(id);
+	}
+
+	/*
+	 * 카드정보 삭제
+	 */
+	@Transactional
+	public void deleteCard(Long id) {
+		
+		Card targetCard = cardRepository.findById(id).get();
+		// 데이터상태여부를 삭제(2)로 변경
+		targetCard.setDataStatus(2);
+		targetCard.setModifiedDate(LocalDateTime.now());
+		cardRepository.save(targetCard);
+	}
+
+	/*
+	 * 회원 탈퇴
+	 */
+	@Transactional
+	public void withdrawal(List<Long> ids) {
+		
+		// id 갯수만큼 반복하기
+		for(Long id : ids) {
+			Member targetmember = memberRepository.findById(id).get();
+			targetmember.setMemberStatus(3);
+			targetmember.setModifiedDate(LocalDateTime.now());
+			
+			memberRepository.save(targetmember);
+		}
 	}
 
 }
