@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 
@@ -15,6 +16,8 @@ import com.example.demo.model.DTO.AdminProductListPageDTO;
 import com.example.demo.model.DTO.AdminProductSearchResultDTO;
 import com.example.demo.repository.BrandRepository;
 import com.example.demo.repository.ProductRepository;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class AdminProductService {
@@ -52,6 +55,9 @@ public class AdminProductService {
 		return resultDto;
 	}
 
+	/*
+	 * 상품검색
+	 */
 	public AdminProductSearchResultDTO searchProduct(Specification<Product> spec, Pageable pageable) {
 
 		// 상품정보
@@ -70,6 +76,22 @@ public class AdminProductService {
 		resultDto.setProductBrandMap(map);
 		
 		return resultDto;
+	}
+
+	/*
+	 * 상품삭제
+	 */
+	@Transactional
+	public void delete(List<Long> ids) {
+		
+		// id 갯수만큼 반복하기
+		for(Long id : ids) {
+			Product targetProduct = productRepository.findById(id).get();
+			targetProduct.setDataStatus(2);
+			targetProduct.setModifiedDate(LocalDateTime.now());
+			
+			productRepository.save(targetProduct) ;
+		}
 	}
 
 }

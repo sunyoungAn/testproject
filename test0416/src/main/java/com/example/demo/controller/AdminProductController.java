@@ -1,11 +1,15 @@
 package com.example.demo.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -81,6 +85,11 @@ public class AdminProductController {
 	/*
 	 * 상품삭제
 	 */
+	@PutMapping("/api/admin/product/delete")
+	public void withdrawalMember(@RequestBody List<Long> ids) {
+		
+		adminProductService.delete(ids);
+	}
 	
 	/*
 	 * 상품등록
