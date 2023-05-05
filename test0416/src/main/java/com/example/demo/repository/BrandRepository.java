@@ -6,9 +6,16 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import com.example.demo.model.Brand;
-import com.example.demo.model.DTO.TestQueryDTO;
+import com.example.demo.model.DTO.AdminBrandDTO;
 
 public interface BrandRepository extends JpaRepository<Brand, Long>{
+	
+	@Query(value = "select " +
+			"new com.example.demo.model.DTO.AdminBrandDTO(br.brandId, br.brandName) " +
+			"from Brand br " 
+			)
+	List<AdminBrandDTO> findBrandCategory();
+	
 
 //	@Query(value="select " +
 //			"new com.example.demo.model.DTO.TestQueryDTO(prod.productKorName, bd.brandId) " +
