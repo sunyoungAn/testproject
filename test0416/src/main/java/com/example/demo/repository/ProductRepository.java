@@ -3,12 +3,13 @@ package com.example.demo.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 
 import com.example.demo.model.Product;
 import com.example.demo.model.DTO.TestQueryDTO;
 
-public interface ProductRepository extends JpaRepository<Product, Long> {
+public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpecificationExecutor<Product> {
 
 	@Query(value="SELECT "
 			 + "new com.example.demo.model.DTO.TestQueryDTO(prod.id, prod.productEngName, prod.dataStatus, prod.launchingDate, img.imagePath, "
