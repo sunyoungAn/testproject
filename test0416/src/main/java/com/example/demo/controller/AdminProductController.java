@@ -1,15 +1,12 @@
 package com.example.demo.controller;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.PageRequest;
@@ -199,6 +196,27 @@ public class AdminProductController {
 	/*
 	 * 상품수정
 	 */
+	@PostMapping("/api/admin/product/edit/{id}")
+	public void editProduct(@PathVariable("id") Long id, 
+			@RequestPart("data") AdminProductRegisterDTO dto, 
+			@RequestPart(value="mainImage", required = false) MultipartFile mainImageFile, 
+			@RequestPart(value="subImage", required = false) List<MultipartFile> subImageFile) {
+		
+		// 상품수정
+		adminProductService.editProduct(id, dto);
+		
+		// 메인이미지 존재시 메인이미지등록
+		if(mainImageFile != null) {
+			adminProductService.registerImage(mainImageFile, id, 1);
+		}
+		
+		// 서브이미지 존재시 서브이미지 등록
+		if(subImageFile != null) {
+			for(MultipartFile subImage : subImageFile) {
+				adminProductService.registerImage(subImage, id, 2);
+			}
+		}
+	}
 	
 
 	

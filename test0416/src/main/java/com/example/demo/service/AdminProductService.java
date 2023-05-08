@@ -266,7 +266,43 @@ public class AdminProductService {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	/*
+	 * 상품수정
+	 */
+	@Transactional
+	public void editProduct(Long id, AdminProductRegisterDTO dto) {
 		
+		// 브랜드 정보 가져오기
+		Brand targetBrand = brandRepository.findById(dto.getBrandId()).get();
+
+		// 상품 정보 설정
+		Product newProduct = productRepository.findById(id).get();
+		newProduct.setProductEngName(dto.getProductEngName());
+		newProduct.setProductKorName(dto.getProductKorName());
+		newProduct.setBrand(targetBrand);
+		newProduct.setCategory(dto.getCategory());
+		if (dto.getModelNumber() != null && dto.getModelNumber() != "") {
+			newProduct.setModelNumber(dto.getModelNumber());
+		}
+		if (dto.getLaunchingDate() != null) {
+			newProduct.setLaunchingDate(dto.getLaunchingDate());
+		}
+		if (dto.getColor() != null && dto.getColor() != "") {
+			newProduct.setColor(dto.getColor());
+		}
+		newProduct.setLaunchingPrice(dto.getLaunchingPrice());
+		newProduct.setGender(dto.getGender());
+		newProduct.setResellTarget(dto.getResellTarget());
+		newProduct.setSizeMin(dto.getSizeMin());
+		newProduct.setSizeMax(dto.getSizeMax());
+		newProduct.setSizeUnit(dto.getSizeUnit());
+		newProduct.setExplanation(dto.getExplanation());
+		newProduct.setModifiedDate(LocalDateTime.now());
+
+		// 상품수정
+		productRepository.save(newProduct);
 	}
 
 }
