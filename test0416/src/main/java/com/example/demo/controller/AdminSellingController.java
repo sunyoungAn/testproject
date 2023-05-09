@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -9,11 +10,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.model.Selling;
 import com.example.demo.model.DTO.AdminSellingResponseDTO;
+import com.example.demo.model.DTO.AdminSellingStatusEditDTO;
 import com.example.demo.service.AdminSellingService;
 import com.example.demo.specification.SellingSpecification;
 
@@ -105,9 +109,21 @@ public class AdminSellingController {
 	/*
 	 * 판매입찰상태 변경
 	 */
+	@PutMapping("/api/admin/selling/edit")
+	public void editSellingStatus(@RequestBody List<AdminSellingStatusEditDTO> dtoList) {
+		
+		adminSellingService.editSellingStatus(dtoList);
+		
+	}
 	
 	/*
 	 * 판매입찰 삭제
 	 */
+	@PutMapping("/api/admin/selling/delete")
+	public void deleteSelling(@RequestBody List<Long> ids) {
+		
+		adminSellingService.delete(ids);
+	}
+	
 	
 }

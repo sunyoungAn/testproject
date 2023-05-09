@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,10 @@ import org.springframework.stereotype.Service;
 import com.example.demo.model.Selling;
 import com.example.demo.model.DTO.AdminSellingInfoDTO;
 import com.example.demo.model.DTO.AdminSellingResponseDTO;
+import com.example.demo.model.DTO.AdminSellingStatusEditDTO;
 import com.example.demo.repository.SellingRepository;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class AdminSellingService {
@@ -81,8 +85,39 @@ public class AdminSellingService {
 		
 		return resultDto;
 	}
+
+	/*
+	 * 판매입찰상태 변경
+	 */
+	@Transactional
+	public void editSellingStatus(List<AdminSellingStatusEditDTO> dtoList) {
+		
+		for(AdminSellingStatusEditDTO dto : dtoList) {
+			// 변경대상을 조회
+			Selling targetSelling = sellingRepository.findById(dto.getId()).get();
+			
+			// 변경할 상태와 변경일을 설정
+			targetSelling.setSellingStatus(dto.getSellingStatus());
+			targetSelling.setModifiedDate(LocalDateTime.now());
+			
+			sellingRepository.save(targetSelling);
+		}
+		
+	}
 	
-	
-	
+	/*
+	 * 판매입찰 삭제
+	 */
+	@Transactional
+	public void delete(List<Long> ids) {
+		
+		for(Long id : ids) {
+			Selling targetSelling = sellingRepository.findById(id).get();
+			targetSelling.setDataStatus(2);
+			targetSelling.setModifiedDate(LocalDateTime.now());
+			
+			sellingRepository.save(targetSelling);
+		}
+	}
 	
 }
