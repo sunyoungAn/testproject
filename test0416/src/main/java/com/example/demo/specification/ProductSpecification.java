@@ -66,5 +66,18 @@ public class ProductSpecification {
 			}
 		};
 	}
+	
+	public static Specification<Product> orLikeName(String name) {
+		return new Specification<Product>() {
+			@Override
+			public Predicate toPredicate(Root<Product> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+				
+				Predicate equalEngName = criteriaBuilder.like(root.get("productEngName"), "%" + name + "%");
+				Predicate equalKorName = criteriaBuilder.like(root.get("productKorName"), "%" + name + "%");
+				
+				return criteriaBuilder.or(equalEngName, equalKorName);
+			}
+		};
+	}
 
 }

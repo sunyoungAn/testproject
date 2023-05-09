@@ -81,8 +81,9 @@ public class AdminProductController {
 		}
 		
 		if(name != null) {
-			spec = spec.and(ProductSpecification.likeProductEngName(name));
-			spec = spec.and(ProductSpecification.likeProductKorName(name));
+//			spec = spec.and(ProductSpecification.likeProductEngName(name));
+//			spec = spec.and(ProductSpecification.likeProductKorName(name));
+			spec = spec.and(ProductSpecification.orLikeName(name));
 		}
 		
 		if(brandId != null && brandId != 0) {
