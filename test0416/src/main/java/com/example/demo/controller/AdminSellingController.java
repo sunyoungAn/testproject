@@ -41,9 +41,9 @@ public class AdminSellingController {
 		spec = spec.and(SellingSpecification.equalDataStatus(1));
 		spec = spec.and(SellingSpecification.equalInventoryDiv(2));
 		
-		AdminSellingResponseDTO sellingList = adminSellingService.getSellingInfo(spec, pageable);
+		AdminSellingResponseDTO reponseDto = adminSellingService.getSellingInfo(spec, pageable);
 		
-		return sellingList;
+		return reponseDto;
 	}
 	
 	
@@ -93,7 +93,7 @@ public class AdminSellingController {
 		
 		if(expiryDateEnd != null && expiryDateEnd != "") {
 			
-			String str = expiryDateEnd + " 00:00:00.000";
+			String str = expiryDateEnd + " 23:59:59.999";
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
 			LocalDateTime dateTime = LocalDateTime.parse(str, formatter);
 			

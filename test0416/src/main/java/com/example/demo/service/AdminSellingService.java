@@ -25,37 +25,6 @@ public class AdminSellingService {
 	private SellingRepository sellingRepository;
 
 	/*
-	 * 판매입찰리스트 - 판매입찰관리페이지에 띄울 정보 모두 가져오기
-	 */
-//	public AdminSellingResponseDTO getSellingAll(Specification<Selling> spec, Pageable pageable) {
-//		Page<Selling> targetList = sellingRepository.findAll(spec, pageable);
-//		
-//		AdminSellingResponseDTO resultDto = new AdminSellingResponseDTO();
-//		
-//		List<AdminSellingInfoDTO> dtoList = new ArrayList<>();
-//		for(Selling target : targetList) {
-//			AdminSellingInfoDTO dto = new AdminSellingInfoDTO();
-//			dto.setId(target.getId());
-//			dto.setProductId(target.getProduct().getId());
-//			dto.setProductEngName(target.getProduct().getProductEngName());
-//			dto.setProductKorName(target.getProduct().getProductKorName());
-//			dto.setProductSize(target.getProductSize());
-//			dto.setWishPrice(target.getWishPrice());
-//			dto.setMemberNumber(target.getMember().getMemberNumber());
-//			dto.setName(target.getMember().getName());
-//			dto.setEmail(target.getMember().getEmail());
-//			dto.setSellingStatus(target.getSellingStatus());
-//			dto.setExpiryDate(target.getExpiryDate());
-//			dtoList.add(dto);
-//		}
-//		
-//		resultDto.setSellingList(dtoList);
-//		resultDto.setTotal(targetList.getTotalElements());
-//		
-//		return resultDto;
-//	}
-
-	/*
 	 * 판매입찰정보가져오기
 	 */
 	public AdminSellingResponseDTO getSellingInfo(Specification<Selling> spec, Pageable pageable) {
