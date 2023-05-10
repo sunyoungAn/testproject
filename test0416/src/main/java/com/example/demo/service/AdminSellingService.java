@@ -10,10 +10,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.model.Payment;
 import com.example.demo.model.Selling;
 import com.example.demo.model.DTO.AdminSellingInfoDTO;
+import com.example.demo.model.DTO.AdminSellingPaymentDTO;
 import com.example.demo.model.DTO.AdminSellingResponseDTO;
 import com.example.demo.model.DTO.AdminSellingStatusEditDTO;
+import com.example.demo.repository.PaymentRepository;
 import com.example.demo.repository.SellingRepository;
 
 import jakarta.transaction.Transactional;
@@ -23,6 +26,9 @@ public class AdminSellingService {
 
 	@Autowired
 	private SellingRepository sellingRepository;
+	
+	@Autowired
+	private PaymentRepository paymentRepository;
 
 	/*
 	 * 판매입찰정보가져오기
@@ -87,6 +93,21 @@ public class AdminSellingService {
 			
 			sellingRepository.save(targetSelling);
 		}
+	}
+
+	/*
+	 * 보관판매결제정보 가져오기
+	 */
+	public AdminSellingPaymentDTO getPayment(Long targetSellingId) {
+		
+		Payment targetPayment = paymentRepository.findBySelling_Id(targetSellingId);
+		
+		AdminSellingPaymentDTO dto = new AdminSellingPaymentDTO();
+		dto.setPaymentType(targetPayment.getPaymentType());
+		dto.setPrice(targetPayment.getPrice());
+		dto.setRegistDate(targetPayment.getRegistDate());
+		;
+		return dto;
 	}
 	
 }
