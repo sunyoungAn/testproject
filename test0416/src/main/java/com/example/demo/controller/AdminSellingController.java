@@ -43,9 +43,9 @@ public class AdminSellingController {
 		spec = spec.and(SellingSpecification.equalDataStatus(1));
 		spec = spec.and(SellingSpecification.equalInventoryDiv(2));
 		
-		AdminSellingResponseDTO reponseDto = adminSellingService.getSellingInfo(spec, pageable);
+		AdminSellingResponseDTO responseDto = adminSellingService.getSellingInfo(spec, pageable);
 		
-		return reponseDto;
+		return responseDto;
 	}
 	
 	/*

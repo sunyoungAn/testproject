@@ -41,7 +41,6 @@ public class Contract {
 	@Column(nullable = false)
 	private Long buyerNumber;
 	
-	@Column(nullable = false)
 	private Long sellerNumber;
 	
 	@Column(nullable = false)
@@ -55,6 +54,9 @@ public class Contract {
 	
 	@Column(nullable = false)
 	private Integer price;
+	
+	@Column(nullable = false)
+	private Integer productSize;
 	
 	private LocalDateTime paidDate;
 	

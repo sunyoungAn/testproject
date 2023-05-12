@@ -38,6 +38,9 @@ public class Payment {
 	@JoinColumn(name = "member_number", nullable = false)
 	private Member member;
 	
+	@Column(length = 50, nullable = false)
+	private String name;
+	
 	@Column(length = 255, nullable = false)
 	private String address;
 	

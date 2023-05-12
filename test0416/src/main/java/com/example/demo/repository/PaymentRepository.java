@@ -8,4 +8,6 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
 
 	Payment findBySelling_Id(Long targetSellingId);
 
+	Payment findByContract_Id(Long targetContractId);
+
 }
