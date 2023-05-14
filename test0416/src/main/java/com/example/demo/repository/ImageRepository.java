@@ -10,4 +10,6 @@ public interface ImageRepository extends JpaRepository<Image, Long> {
 
 	List<Image> findByTargetId(Long id);
 
+	List<Image> findByTargetIdAndPageDiv(Long id, Integer i);
+
 }
