@@ -17,7 +17,6 @@ import com.example.demo.model.Review;
 import com.example.demo.model.DTO.AdminReviewResponseDTO;
 import com.example.demo.service.AdminReviewService;
 import com.example.demo.specification.ReviewSpecification;
-import com.example.demo.specification.SellingSpecification;
 
 @RestController
 public class AdminReviewController {
@@ -29,7 +28,7 @@ public class AdminReviewController {
 	 *  리뷰리스트 - 리뷰관리페이지에 띄울 정보 모두 가져오기
 	 */
 	@GetMapping("/api/admin/review/getall")
-	public AdminReviewResponseDTO getSellingAll(Pageable pageable) {
+	public AdminReviewResponseDTO getReviewAll(Pageable pageable) {
 		
 		Sort sort = Sort.by("id").descending(); 
 		pageable = PageRequest.of(pageable.getPageNumber(), 10, sort);
