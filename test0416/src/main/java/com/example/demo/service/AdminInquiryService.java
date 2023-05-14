@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import java.io.File;
 import java.net.URLDecoder;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.model.Image;
 import com.example.demo.model.Inquiry;
+import com.example.demo.model.DTO.AdminInquiryDetailDTO;
 import com.example.demo.model.DTO.AdminInquiryInfoDTO;
 import com.example.demo.model.DTO.AdminInquiryResponseDTO;
 import com.example.demo.repository.ImageRepository;
@@ -106,6 +108,61 @@ public class AdminInquiryService {
 				}
 			}
 		}
+	}
+
+
+	/*
+	 * 문의상세내용 가져오기
+	 */
+	public AdminInquiryDetailDTO getInquiryOne(Long id) {
+		
+		// 문의 조회
+		Inquiry targetInquiry = inquiryRepository.findById(id).get();
+		
+		// 이미지 조회
+		List<Image> targetImageList = imageRepository.findByTargetIdAndPageDiv(id, 3);
+		
+		AdminInquiryDetailDTO resultDto = new AdminInquiryDetailDTO();
+		resultDto.setInquiryRegistDate(targetInquiry.getInquiryRegistDate());
+		if(targetInquiry.getInquiryStatus() == 1) {
+			resultDto.setInquiryStatusName("처리중");
+		} else {
+			resultDto.setInquiryStatusName("처리완료");
+		}
+		resultDto.setName(targetInquiry.getMember().getName());
+		resultDto.setEmail(targetInquiry.getMember().getEmail());
+		resultDto.setTitle(targetInquiry.getTitle());
+		resultDto.setContent(targetInquiry.getContent());
+		resultDto.setAnswer(targetInquiry.getAnswer());
+		
+		if(targetImageList.isEmpty() == false) {
+			List<String> pathList = new ArrayList<>();
+			for(Image image : targetImageList) {
+				pathList.add(image.getImagePath());
+			}
+			resultDto.setPathList(pathList);
+		}
+		
+		return resultDto;
+	}
+
+
+	/*
+	 * 답변등록
+	 */
+	@Transactional
+	public void reply(Long id, String answer) {
+
+		Inquiry targetInquiry = inquiryRepository.findById(id).get();
+		targetInquiry.setAnswer(answer);
+		if(targetInquiry.getAnswerRegistDate() == null) {
+			targetInquiry.setAnswerRegistDate(LocalDateTime.now());
+		} else {
+			targetInquiry.setAnswerModifiedDate(LocalDateTime.now());	
+		}
+		targetInquiry.setInquiryStatus(2);
+		
+		inquiryRepository.save(targetInquiry);
 	}
 	
 }
