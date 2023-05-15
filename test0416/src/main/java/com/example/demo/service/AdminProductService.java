@@ -112,6 +112,26 @@ public class AdminProductService {
 			targetProduct.setModifiedDate(LocalDateTime.now());
 			
 			productRepository.save(targetProduct) ;
+			
+			// 이미지 조회
+			List<Image> targetImageList = imageRepository.findByTargetIdAndPageDiv(id, 1);
+						
+			if(targetImageList.isEmpty() == false) {
+				for(Image targetImage : targetImageList) {
+					// 이미지 삭제
+					imageRepository.delete(targetImage);
+								
+					// 로컬데이터도 삭제
+					try {
+									
+						File file = new File(uploadPath + URLDecoder.decode(targetImage.getImagePath(), "UTF-8"));
+						file.delete();
+									
+					} catch(Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}
 		}
 	}
 
@@ -230,7 +250,7 @@ public class AdminProductService {
 		resultDto.setExplanation(targetProduct.getExplanation());
 		
 		List<AdminImageDTO> imageList = new ArrayList<>();
-		List<Image> targetImage = imageRepository.findByTargetId(id);
+		List<Image> targetImage = imageRepository.findByTargetIdAndPageDiv(id, 1);
 		for(Image image : targetImage) {
 			AdminImageDTO dto = new AdminImageDTO();
 			dto.setId(image.getId());
@@ -251,7 +271,7 @@ public class AdminProductService {
 	@Transactional
 	public void deleteImage(Long id) {
 		
-		Image targetImage = imageRepository.findById(id).get();
+		Image targetImage = imageRepository.findByIdAndPageDiv(id, 1);
 		String name = targetImage.getImagePath();
 		
 		// 이미지삭제

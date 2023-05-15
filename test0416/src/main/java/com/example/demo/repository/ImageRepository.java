@@ -8,8 +8,10 @@ import com.example.demo.model.Image;
 
 public interface ImageRepository extends JpaRepository<Image, Long> {
 
-	List<Image> findByTargetId(Long id);
+//	List<Image> findByTargetId(Long id);
 
 	List<Image> findByTargetIdAndPageDiv(Long id, Integer i);
+
+	Image findByIdAndPageDiv(Long id, int i);
 
 }

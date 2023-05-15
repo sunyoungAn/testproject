@@ -74,6 +74,8 @@ public class AdminReviewService {
 			targetReview.setDataStatus(2);
 			targetReview.setModifiedDate(LocalDateTime.now());
 			
+			reviewRepository.save(targetReview);
+			
 			// 이미지 조회
 			List<Image> targetImageList = imageRepository.findByTargetIdAndPageDiv(id, 2);
 			
