@@ -62,6 +62,12 @@ public class Payment {
 	@Column(length = 255, nullable = false)
 	private Integer price;
 	
+	@Column(length = 255, nullable = false)
+	private String impUid; // 결제번호
+
+	@Column(length = 255, nullable = false)
+	private String merchantUid; // 주문번호
+	
 	@Column(nullable = false)
 	private LocalDateTime registDate;
 	
