@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,9 +16,12 @@ import com.example.demo.model.Payment;
 import com.example.demo.model.DTO.AdminContractInfoDTO;
 import com.example.demo.model.DTO.AdminContractPaymentDTO;
 import com.example.demo.model.DTO.AdminContractResponseDTO;
+import com.example.demo.model.DTO.AdminContractStatusEditDTO;
 import com.example.demo.repository.ContractRepository;
 import com.example.demo.repository.MemberRepository;
 import com.example.demo.repository.PaymentRepository;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class AdminContractService {
@@ -91,7 +95,11 @@ public class AdminContractService {
 				dto.setSellerEmail(sellerData.getEmail());
 			};
 			dto.setContractDate(target.getContractDate());
-			dto.setSellingStatus(target.getSellingStatus());
+			if(target.getSellingStatus() == null) {
+				dto.setSellingStatus(0);
+			} else {
+				dto.setSellingStatus(target.getSellingStatus());
+			}
 			dto.setBuyingStatus(target.getBuyingStatus());
 			dto.setPaidPrice(target.getPaidPrice());
 			dto.setPaidDate(target.getPaidDate());
@@ -125,6 +133,36 @@ public class AdminContractService {
 		dto.setMessage(targetPayment.getMessage());
 		
 		return dto;
+	}
+
+	/*
+	 * 거래정보의 판매, 구매 상태변경
+	 */
+	@Transactional
+	public void editContractStatus(List<AdminContractStatusEditDTO> dtoList) {
+
+		for(AdminContractStatusEditDTO dto : dtoList) {
+			// 변경대상을 조회
+			Contract targetContract = contractRepository.findById(dto.getId()).get();
+			
+			if(dto.getSellingStatus() != 0) {
+				// 변경될 판매상태정보가 있는 경우에만 판매상태정보 수정
+				targetContract.setSellingStatus(dto.getSellingStatus());
+				
+				if(dto.getSellingStatus() == 50) {
+					// 정산완료인 경우에는 정산금액과 정산일도 설정
+					targetContract.setPaidDate(LocalDateTime.now());
+					targetContract.setPaidPrice((int)(targetContract.getPrice() * 0.96));
+					;
+				}
+			}
+			
+			targetContract.setBuyingStatus(dto.getBuyingStatus());
+			targetContract.setModifiedDate(LocalDateTime.now());
+			
+			contractRepository.save(targetContract);		
+			}
+		
 	}
 	
 }

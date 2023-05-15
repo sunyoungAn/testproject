@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -10,12 +11,15 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.model.Contract;
 import com.example.demo.model.DTO.AdminContractPaymentDTO;
 import com.example.demo.model.DTO.AdminContractResponseDTO;
+import com.example.demo.model.DTO.AdminContractStatusEditDTO;
 import com.example.demo.service.AdminContractService;
 import com.example.demo.specification.ContractSpecification;
 
@@ -109,8 +113,13 @@ public class AdminContractController {
 	
 	
 	/*
-	 * 거래상태 변경 TODO
+	 * 거래상태 변경
 	 */
+	@PutMapping("/api/admin/contract/edit")
+	public void editContractStatus(@RequestBody List<AdminContractStatusEditDTO> dtoList) {
+		
+		adminContractService.editContractStatus(dtoList);
+	}
 	
 	
 	/*
